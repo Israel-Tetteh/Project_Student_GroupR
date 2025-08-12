@@ -14,30 +14,7 @@ ui <- page_navbar(
     primary = "#667eea",
     success = "#4CAF50"
   ),
-  
-  # footer = tags$footer(
-  #   class = "bg-light text-center p-3",
-  #   HTML("&copy; 2025 Project Student GroupR | Developed by: Ephraim Ampofo , Bandoh Alex , Omari Owusu , Isaac Asiedu Kwakye ,Tenkorang Godfred Samuel , Sophia Abaidoo , Israel Tawiah Tetteh*"),
-  #   tags$br(),
-  #   tags$a(
-  #     href = "https://github.com/Israel-Tetteh?tab=repositories",
-  #     target = "_blank",
-  #     icon("github"), " GitHub"
-  #   ),
-  #   " | ",
-  #   tags$a(
-  #     href = "mailto:israeltetteh715@gmail.com",
-  #     icon("envelope"), " Contact"
-  #   )
-  # ),
-  # Home panel
-  # nav_panel(
-  #   title = "Welcome",
-  #   icon = icon("home")
-  #   
-  #   #--- Design the homepage here @Godfred, i will add some few images and the likes later.
-  #   
-  # ),
+ 
   # Landing Page Content for the Welcome nav_panel
   nav_panel(
     title = "Welcome",
