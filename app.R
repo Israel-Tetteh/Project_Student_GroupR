@@ -14,7 +14,6 @@ ui <- page_navbar(
     primary = "#667eea",
     success = "#4CAF50"
   ),
- 
   # Landing Page Content for the Welcome nav_panel
   nav_panel(
     title = "Welcome",
