@@ -535,7 +535,7 @@ server <- function(input, output, session) {
     # handle error gracefully
     tryCatch({
       # read the sheet
-      result <- readxl::read_excel(input$student_and_department$datapath) |> as.data.frame()
+      result <- read_student_file(input$student_and_department$datapath)
       # get colnames that tally to department.
       depa_col <- grep('depa',x = colnames(result),ignore.case = T ,value = T)[[1]] # if there are two grab
       
