@@ -4,6 +4,8 @@
 ##############################################################################
 library(bslib)
 library(shiny)
+library(bsicons)
+
 source('utils/Project_Grouper_function.R') # source the function
 ui <- page_navbar(
   id = 'key',
@@ -26,7 +28,15 @@ ui <- page_navbar(
            color: white;
            padding: 80px 0;
            margin: -15px -15px 30px -15px;
-           text-align: center;",
+           text-align: center;margin-left:50px;margin-right:50px;margin-top:10px;
+      border-radius: 20px;cursor: pointer;",
+      
+      div(
+        tags$img(src = "logo.jpg", 
+        style = 'height:200px;width:200px;border-width:5px;border-color:white;
+                 border-radius:100px' )
+      )
+      ,
       
       div(
         class = "container",
@@ -55,27 +65,8 @@ ui <- page_navbar(
                font-weight: 600;
                box-shadow: 0 4px 15px rgba(0,0,0,0.2);"
         )
-      ),
-      
-      tags$footer(
-        style = "background-color: rgba(255, 255, 255, 0.1);
-             padding: 15px;
-             margin-top: 40px;
-             font-size: 0.9rem;
-             color: #f5f5f5;",
-        HTML("&copy; 2025 Project Student GroupR | Developed by: Ephraim Ampofo, Bandoh Alex, Omari Owusu, Isaac Asiedu Kwakye, Tenkorang Godfred Samuel, Sophia Abaidoo, Israel Tawiah Tetteh"),
-        tags$br(),
-        tags$a(
-          href = "https://github.com/Israel-Tetteh?tab=repositories",
-          target = "_blank",
-          icon("github"), " GitHub"
-        ),
-        " | ",
-        tags$a(
-          href = "mailto:israeltetteh715@gmail.com",
-          icon("envelope"), " Contact"
-        )
       )
+      
     ),
     
     
@@ -305,14 +296,35 @@ ui <- page_navbar(
           h3("100%", style = "font-size: 2.5rem; margin-bottom: 10px;"),
           p("Satisfaction Rate", style = "font-size: 1.1rem; margin: 0;")
         )
+      ),
+      tags$footer(
+        style = "background-color: rgba(255, 255, 255, 0.1);
+             padding: 15px;
+             margin-top: 10px;
+             font-size: 0.9rem;margin-down: 10px;
+             color: rgba(0, 0, 0, 0.7);border-radious:10px;
+      text-align:center;background-color: rgba(173, 216, 230, 0.5);",
+        HTML("&copy; 2025 Project Student GroupR | Developed by: Ephraim Ampofo, Bandoh Alex, Omari Owusu, Isaac Asiedu Kwakye, Tenkorang Godfred Samuel, Sophia Abaidoo, Israel Tawiah Tetteh"),
+        tags$br(),
+        tags$a(
+          href = "https://github.com/Israel-Tetteh?tab=repositories",
+          target = "_blank",
+          icon("github"), " GitHub"
+        ),
+        " | ",
+        tags$a(
+          href = "mailto:israeltetteh715@gmail.com",
+          icon("envelope"), " Contact"
+        )
       )
     )
   ),
 
   # Group students
-  nav_panel(
-    title = "Get Started",
-    icon = icon("play-circle"),
+  # lets hide the navpanel to force the user see the modal when the get started button is clicked
+  nav_panel_hidden(value = 'Get Started',
+    # title = "Get Started",
+    # icon = icon("play-circle"),
     # Input widgets for the function argumnents
     sidebarLayout(
       sidebarPanel(
@@ -320,21 +332,22 @@ ui <- page_navbar(
           card_body(
             tagList(
               # student_and_cwa file input
-              bslib::tooltip(
-                span("Hint", bsicons::bs_icon("question-circle-fill")),
-                "File must have CWA ,NAME, INDEX NUMBER as colum names.",
-                placement = "right"
-              ),
+              # Replacing tool tips with shiny modal
+              # bslib::tooltip(
+              #   span("Hint", bsicons::bs_icon("question-circle-fill")),
+              #   "File must have CWA ,NAME, INDEX NUMBER as colum names.",
+              #   placement = "right"
+              # ),
               fileInput(
                 inputId = "student_and_cwa",
                 label = "Upload Student and CWA File",
                 accept = c(".csv", ".xlsx")
               ),
-              bslib::tooltip(
-                span("Hint", bsicons::bs_icon("question-circle-fill")),
-                'File must have NAME, INDEX NUMBER ,DEPARTMENT as colum names',
-                placement = "right"
-              ),
+              # bslib::tooltip(
+              #   span("Hint", bsicons::bs_icon("question-circle-fill")),
+              #   'File must have NAME, INDEX NUMBER ,DEPARTMENT as colum names',
+              #   placement = "right"
+              # ),
               # student_and_department file input
               fileInput(
                 inputId = "student_and_department",
@@ -461,12 +474,57 @@ server <- function(input, output, session) {
   # Navigation functionality for Get Started buttons
   observeEvent(input$get_started_hero, {
     updateNavbarPage(session, inputId = 'key', selected = "Get Started")
+
+    showModal(modalDialog(
+      title = "Please Take Note!",
+      tags$div(
+        tags$p("File 1 should be an Excel sheet with column names:"),
+        tags$ul(
+          tags$li("NAME"),
+          tags$li("INDEX NUMBER"),
+          tags$li("CWA")
+        ),
+        tags$p("File 2 should be an Excel sheet with column names:"),
+        tags$ul(
+          tags$li("NAME"),
+          tags$li("INDEX NUMBER"),
+          tags$li("DEPARTMENT")
+        ),
+        tags$p("Column names should be exactly as indicated and in UPPER CASE")
+      ),
+      easyClose = TRUE,
+      footer = modalButton("Close")
+    ))
+    
   })
   
   observeEvent(input$get_started_bottom, {
     updateNavbarPage(session, inputId = 'key', selected = "Get Started")
+    
+    #if navoage changes delay for 5 seconds before showing modal
+      showModal(modalDialog(
+        title = 'Please Take Note!',
+        tags$div(
+          tags$p("File 1 should be an Excel sheet with column names:"),
+          tags$ul(
+            tags$li("NAME"),
+            tags$li("INDEX NUMBER"),
+            tags$li("CWA")
+          ),
+          tags$p("File 2 should be an Excel sheet with column names:"),
+          tags$ul(
+            tags$li("NAME"),
+            tags$li("INDEX NUMBER"),
+            tags$li("DEPARTMENT")
+          ),
+          tags$p("Column names should be exactly as indicated and in UPPER CASE")
+        ),
+        easyClose = TRUE,
+        footer = modalButton("Close")
+      ))
   })
   
+
   
   # server side for the grouper function.
   #- first lets find the unique groups in the excel sheet so we use that to update
