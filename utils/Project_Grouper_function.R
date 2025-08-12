@@ -2,7 +2,34 @@
 # Install these packages if you don't have them.
 if(!require(pacman)) install.packages("pacman")
 
-pacman::p_load(readxl, data.table, tidyverse , stringr , ggplot2)
+pacman::p_load(readxl, data.table, tidyverse , stringr , ggplot2) # load and install if user doesnot have
+
+
+
+#' Title Function to read Excel or CSV into a data frame
+#'
+#' @param file_path path bearing data to be used for grouping
+#'
+#' @returns a dataframe containing the data read from the uploaded file
+#' 
+read_student_file <- function(file_path) {
+  # Detect file extension (lowercase)
+  ext <- tools::file_ext(file_path) |> tolower()
+  
+  # Read based on extension
+  if (ext %in% c("xlsx", "xls")) {
+    df <- readxl::read_excel(file_path, .name_repair = "minimal") |> 
+      as.data.frame()
+  } else if (ext == "csv") {
+    df <- read.csv(file_path, stringsAsFactors = FALSE, check.names = FALSE)
+  } else {
+    stop("Unsupported file type: ", ext)
+  }
+  
+  return(df)
+}
+
+
 
 #' Group Students into Project Teams Based on CWA and Department of Choice
 #'
@@ -43,9 +70,9 @@ Group_project_students <- function(student_and_cwa,
                                    department,
                                    project_year = "2024") {
   # Read data for student + cwa
-  SC <- readxl::read_excel(student_and_cwa, .name_repair = "minimal") |> as.data.frame()
+  SC <- read_student_file(student_and_cwa)
   # student + department
-  SD <- readxl::read_excel(student_and_department, .name_repair = "minimal") |> as.data.frame()
+  SD <- read_student_file(student_and_department)
   
   # Check if cwa, index number and name exists
   required <- c("INDEX NUMBER", "CWA", "NAME")
@@ -278,18 +305,3 @@ Group_project_students <- function(student_and_cwa,
   )
   )
 }
-# 
-# a<- Group_project_students(student_and_cwa = '//Users//israeltawiahtetteh//Desktop//Test sheet for student grouping//List of AGB 4 students + CWA.xlsx',
-#                        student_and_department = '//Users//israeltawiahtetteh//Desktop//Test sheet for student grouping//list with department, sample.xlsx',
-#                        stud_per_grp = 10,
-#                        lecturer_names = c("SA","AWK","RA"),
-#                        dist_grp_to_lecturers = F,
-#                        department = 'crop')
-# #
-# a$Grouped_students
-# a$Bar_plot
-# a$Scatter_plot
-# a$Distribution_plot
-# names(a)
-# 
-# a[c("Bar_plot","Scatter_plot","Distribution_plot")]
