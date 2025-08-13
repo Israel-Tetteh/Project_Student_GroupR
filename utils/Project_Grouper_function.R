@@ -101,9 +101,7 @@ Group_project_students <- function(student_and_cwa,
   SC_filtered[["name"]] <- as.character(SC_filtered[["name"]])
   SC_filtered[["cwa"]] <- as.numeric(SC_filtered[["cwa"]])
   
-  # Force the needed columns to their various data types.
-  # Department + Name + index number
-  SD_filtered[['index_number']] <- as.numeric(SD_filtered[['index_number']])
+  
   # Extract column names
   index_col <- grep("inde", x = colnames(SC_filtered), ignore.case = TRUE, value = TRUE)
   
@@ -112,6 +110,9 @@ Group_project_students <- function(student_and_cwa,
   
   # subset just index number and department.
   SD_filtered <- SD[grep("depa|ind", x = colnames(SD), ignore.case = TRUE, value = TRUE)]
+  # Force the needed columns to their various data types.
+  # Department + Name + index number
+  SD_filtered[['index_number']] <- as.numeric(SD_filtered[['index_number']])
   department_col <- grep("depa", x = colnames(SD_filtered), ignore.case = TRUE, value = TRUE)
   # A graph to show the number of students who chose what department.
   # current_date <- Sys.Date() |> stringr::str_split(pattern = '-') |> unlist()
