@@ -315,14 +315,7 @@ Group_project_students <- function(student_and_cwa,
   )
 }
 
-## Test with another scripts.
-Group_project_students(student_and_cwa = '//Users//israeltawiahtetteh//Desktop//AGB2024_stud_cwa.xlsx' ,
-                       student_and_department = '//Users//israeltawiahtetteh//Desktop/AGB 2024_stud_department.xlsx',
-                       stud_per_grp = 8,
-                       dist_grp_to_lecturers = FALSE,
-                      # lecturer_names = ,
-                       department = 'Animal Science',
-                       project_year = 2025)
+
 
 
 
