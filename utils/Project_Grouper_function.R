@@ -95,6 +95,15 @@ Group_project_students <- function(student_and_cwa,
   # Subset the needed column from the actual data.
   SC_filtered <- SC[needed_columns]
   
+  # Force the needed columns to their various data types.
+  # CWA + Name + index number
+  SC_filtered[["index_number" ]] <- as.integer(SC_filtered[["index_number" ]])
+  SC_filtered[["name"]] <- as.character(SC_filtered[["name"]])
+  SC_filtered[["cwa"]] <- as.numeric(SC_filtered[["cwa"]])
+  
+  # Force the needed columns to their various data types.
+  # Department + Name + index number
+  SD_filtered[['index_number']] <- as.numeric(SD_filtered[['index_number']])
   # Extract column names
   index_col <- grep("inde", x = colnames(SC_filtered), ignore.case = TRUE, value = TRUE)
   
@@ -127,7 +136,7 @@ Group_project_students <- function(student_and_cwa,
   # Merge it all together.
   complete_df <- merge.data.frame(x = SC_filtered, y = SD_filtered) # use the common colnames
   
-  # Next plot to show the distribution of students within what classes are choosing this departments
+  # Next plot to show the distribution of students within what classes are choosing this department
   plott2 <- ggplot2::ggplot(mapping = aes(x = department ,y = cwa ,colour  = department),data = complete_df ) +
     ggplot2::geom_point(position = position_jitter(width = 0.2),size = 3) +
     ggplot2::theme_classic()+
@@ -305,3 +314,15 @@ Group_project_students <- function(student_and_cwa,
   )
   )
 }
+
+## Test with another scripts.
+Group_project_students(student_and_cwa = '//Users//israeltawiahtetteh//Desktop//AGB2024_stud_cwa.xlsx' ,
+                       student_and_department = '//Users//israeltawiahtetteh//Desktop/AGB 2024_stud_department.xlsx',
+                       stud_per_grp = 8,
+                       dist_grp_to_lecturers = FALSE,
+                      # lecturer_names = ,
+                       department = 'Animal Science',
+                       project_year = 2025)
+
+
+
